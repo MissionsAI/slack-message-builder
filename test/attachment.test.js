@@ -1,6 +1,7 @@
 'use strict'
 
 const test = require('ava').test
+// const camelcase = require('camelcase')
 const Attachment = require('../src/attachment')
 
 test('Atachment()', t => {
@@ -117,6 +118,22 @@ test('Attachment().field()', t => {
   t.is(a.fields[0].value, value)
   t.is(a.fields[0].short, short)
 })
+
+// test.only('Attachment() property get()', t => {
+//   var a = Attachment(attachment)
+
+//   Object.keys(attachment).forEach(prop => {
+//     var val = attachment[prop]
+//     var getVal = a[camelcase(prop)].get()
+
+//     if (typeof getVal.json === 'function') {
+//       t.deepEqual(getVal.json(), val)
+//     } else {
+//       t.is(getVal, val)
+//     }
+//   })
+//   t.is(a.text.get(), attachment.text)
+// })
 
 const attachment = {
   text: 'attachment text',

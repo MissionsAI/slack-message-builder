@@ -20,12 +20,13 @@ class Button {
     }
 
     this._attachment = null
-    this._confirm = null
     this.data = {
       type: 'button'
     }
 
     setValues(this, values)
+    // Adds scope of `this` to each setter fn for chaining `.get()`
+    this.addSetterScopes()
   }
 
   attachment (attachment) {
@@ -51,8 +52,8 @@ class Button {
   json () {
     var button = Object.assign({}, this.data)
 
-    if (this._confirm) {
-      button.confirm = this._confirm.json()
+    if (this.data.confirm) {
+      button.confirm = this.data.confirm.json()
     }
 
     return button
@@ -70,13 +71,13 @@ const PROPS = {
   },
   'confirm': function (confirm) {
     if (confirm === null) {
-      this._confirm = null
+      this.data.confirm = null
       return this
     }
 
-    this._confirm = Confirm(confirm).button(this)
+    this.data.confirm = Confirm(confirm).button(this)
 
-    return this._confirm
+    return this.data.confirm
   }
 }
 

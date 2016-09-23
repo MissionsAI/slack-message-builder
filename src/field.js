@@ -13,6 +13,8 @@ class Field {
     this.data = {}
 
     setValues(this, values)
+    // Adds scope of `this` to each setter fn for chaining `.get()`
+    this.addSetterScopes()
   }
 
   attachment (attachment) {

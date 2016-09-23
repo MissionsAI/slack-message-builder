@@ -9,6 +9,8 @@ class Confirm {
     this.data = {}
 
     setValues(this, values)
+    // Adds scope of `this` to each setter fn for chaining `.get()`
+    this.addSetterScopes()
   }
 
   button (button) {

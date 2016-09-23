@@ -14,18 +14,22 @@ const Message = module.exports = class {
       values.text = text
     }
 
-    this._attachments = []
     this.data = {}
 
     // populate any properties passed into constructor
-    setValues(this, values)
+    setValues(this, values, PROPS)
+    // Adds scope of `this` to each setter fn for chaining `.get()`
+    this.addSetterScopes()
   }
 
   // should create an Attachment object and add it to the collection
   attachment (values) {
     var attachment = Attachment(values).message(this)
 
-    this._attachments.push(attachment)
+    if (!this.data.attachments) {
+      this.data.attachments = []
+    }
+    this.data.attachments.push(attachment)
 
     return attachment
   }
@@ -34,8 +38,8 @@ const Message = module.exports = class {
   json () {
     var message = Object.assign({}, this.data)
 
-    if (this._attachments.length > 0) {
-      message.attachments = this._attachments.map(attachment => attachment.json())
+    if (this.data.attachments && this.data.attachments.length > 0) {
+      message.attachments = this.data.attachments.map(attachment => attachment.json())
     }
 
     return message
@@ -59,11 +63,12 @@ const PROPS = {
   'icon_url': true,
   'attachments': function (attachments) {
     if (attachments === null) {
-      this._attachments = null
+      this.data.attachments = null
       return this
     }
 
-    this._attachments = (attachments || []).map(attachment => {
+    // TODO: remove reassignment here, just wipe then set
+    this.data.attachments = (attachments || []).map(attachment => {
       return this.attachment(attachment)
     })
 

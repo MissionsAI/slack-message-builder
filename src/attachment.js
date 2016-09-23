@@ -12,13 +12,13 @@ class Attachment {
       values = { text: values }
     }
     this._message = null
-    this._actions = []
-    this._fields = []
     this.data = {
       text: ''
     }
 
     setValues(this, values)
+    // Adds scope of `this` to each setter fn for chaining `.get()`
+    this.addSetterScopes()
   }
 
   message (message) {
@@ -31,7 +31,10 @@ class Attachment {
   field (values) {
     var field = Field(values).attachment(this)
 
-    this._fields.push(field)
+    if (!this.data.fields) {
+      this.data.fields = []
+    }
+    this.data.fields.push(field)
 
     return field
   }
@@ -40,7 +43,10 @@ class Attachment {
   button () {
     var button = Button.apply(Button, arguments).attachment(this)
 
-    this._actions.push(button)
+    if (!this.data.actions) {
+      this.data.actions = []
+    }
+    this.data.actions.push(button)
 
     return button
   }
@@ -48,11 +54,11 @@ class Attachment {
   // this.actions() sends here, since button feels more intuitive
   buttons (buttons) {
     if (buttons === null) {
-      this._actions = null
+      this.data.actions = null
       return this
     }
 
-    this._actions = (buttons || []).map(action => this.action(action))
+    this.data.actions = (buttons || []).map(action => this.action(action))
 
     return this
   }
@@ -69,12 +75,12 @@ class Attachment {
   json () {
     var attachment = Object.assign({}, this.data)
 
-    if (this._actions.length > 0) {
-      attachment.actions = this._actions.map(action => action.json())
+    if (this.data.actions && this.data.actions.length > 0) {
+      attachment.actions = this.data.actions.map(action => action.json())
     }
 
-    if (this._fields.length > 0) {
-      attachment.fields = this._fields.map(field => field.json())
+    if (this.data.fields && this.data.fields.length > 0) {
+      attachment.fields = this.data.fields.map(field => field.json())
     }
 
     return attachment
@@ -102,11 +108,11 @@ const PROPS = {
   'ts': true, // epoch time
   'fields': function (fields) {
     if (fields === null) {
-      this._fields = null
+      this.data.fields = null
       return this
     }
 
-    this._fields = (fields || []).map(field => this.field(field))
+    this.data.fields = (fields || []).map(field => this.field(field))
 
     return this
   },
