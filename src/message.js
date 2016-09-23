@@ -45,23 +45,27 @@ const Message = module.exports = class {
     return message
   }
 
+  toJSON () {
+    return this.json()
+  }
+
 }
 
 // props for Slack API - true gets a generic setter fn
 const PROPS = {
-  'text': true,
-  'response_type': true,
-  'replace_original': true,
-  'delete_original': true,
-  'token': true,
-  'channel': true,
-  'parse': true,
-  'link_names': true,
-  'unfurl_links': true,
-  'unfurl_media': true,
-  'as_user': true,
-  'icon_url': true,
-  'attachments': function (attachments) {
+  text: true,
+  response_type: true,
+  replace_original: true,
+  delete_original: true,
+  token: true,
+  channel: true,
+  parse: true,
+  link_names: true,
+  unfurl_links: true,
+  unfurl_media: true,
+  as_user: true,
+  icon_url: true,
+  attachments: function (attachments) {
     if (attachments === null) {
       this.data.attachments = null
       return this
@@ -75,14 +79,14 @@ const PROPS = {
     return this
   },
   // bot's username for msg - as_user must be true, or ignored
-  'username': function (val) {
+  username: function (val) {
     this.data.username = val
     this.data.as_user = true
 
     return this
   },
   // as_user must be false, or ignored
-  'icon_emoji': function (val) {
+  icon_emoji: function (val) {
     this.data.icon_emoji = val
     this.data.as_user = false
 

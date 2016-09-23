@@ -39,8 +39,13 @@ class Attachment {
     return field
   }
 
-  // creates Button instance, adds it to collection and returns it
+  // alias for `this.action()`
   button () {
+    return this.action.apply(this, arguments)
+  }
+
+  // creates Button instance, adds it to collection and returns it
+  action () {
     var button = Button.apply(Button, arguments).attachment(this)
 
     if (!this.data.actions) {
@@ -49,23 +54,6 @@ class Attachment {
     this.data.actions.push(button)
 
     return button
-  }
-
-  // this.actions() sends here, since button feels more intuitive
-  buttons (buttons) {
-    if (buttons === null) {
-      this.data.actions = null
-      return this
-    }
-
-    this.data.actions = (buttons || []).map(action => this.action(action))
-
-    return this
-  }
-
-  // proxy to `this.button()` for convenience since Slack API calls them actions
-  action () {
-    return this.button.apply(this, arguments)
   }
 
   end () {
@@ -86,27 +74,31 @@ class Attachment {
     return attachment
   }
 
+  toJSON () {
+    return this.json()
+  }
+
 }
 
 // props for Slack API - true gets a generic setter fn
 const PROPS = {
-  'text': true,
-  'title': true,
-  'title_link': true,
-  'fallback': true,
-  'callback_id': true,
-  'color': true,
-  'pretext': true,
-  'author_name': true,
-  'author_link': true,
-  'author_icon': true,
-  'image_url': true,
-  'thumb_url': true,
-  'footer': true,
-  'footer_icon': true,
-  'mrkdwn_in': true,
-  'ts': true, // epoch time
-  'fields': function (fields) {
+  text: true,
+  title: true,
+  title_link: true,
+  fallback: true,
+  callback_id: true,
+  color: true,
+  pretext: true,
+  author_name: true,
+  author_link: true,
+  author_icon: true,
+  image_url: true,
+  thumb_url: true,
+  footer: true,
+  footer_icon: true,
+  mrkdwn_in: true,
+  ts: true, // epoch time
+  fields (fields) {
     if (fields === null) {
       this.data.fields = null
       return this
@@ -116,9 +108,18 @@ const PROPS = {
 
     return this
   },
-  'actions': function (actions) {
-    return this.buttons(actions)
-  }
+  actions (actions) {
+    if (actions === null) {
+      this.data.actions = null
+      return this
+    }
+
+    this.data.actions = (actions || []).map(action => this.action(action))
+
+    return this
+  },
+  // alias for actions
+  buttons: 'actions'
 }
 
 mixinSetters(Attachment.prototype, PROPS)

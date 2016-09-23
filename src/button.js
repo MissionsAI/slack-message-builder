@@ -35,16 +35,6 @@ class Button {
     return this
   }
 
-  val (val) {
-    if (val !== null && val !== undefined && typeof val === 'object') {
-      val = JSON.stringify(val)
-    }
-
-    this.data.value = val
-
-    return this
-  }
-
   end () {
     return this._attachment
   }
@@ -58,18 +48,30 @@ class Button {
 
     return button
   }
+
+  toJSON () {
+    return this.json()
+  }
 }
 
 // props for Slack API - true gets a generic setter fn
 const PROPS = {
-  'name': true,
-  'text': true,
-  'style': true,
-  'type': true,
-  'value': function (val) {
-    return this.val(val)
+  name: true,
+  text: true,
+  style: true,
+  type: true,
+  value: function (val) {
+    if (val !== null && val !== undefined && typeof val === 'object') {
+      val = JSON.stringify(val)
+    }
+
+    this.data.value = val
+
+    return this
   },
-  'confirm': function (confirm) {
+  // alias for value
+  val: 'value',
+  confirm: function (confirm) {
     if (confirm === null) {
       this.data.confirm = null
       return this

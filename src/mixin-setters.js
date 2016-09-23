@@ -9,7 +9,7 @@ module.exports = (receiver, props) => {
     var propVal = props[prop]
     var fnName = camelcase(prop)
 
-    // Add generic setter fn
+    // generic setter fn
     if (propVal === true) {
       setterFn = function (val) {
         this.data[prop] = val
@@ -18,7 +18,15 @@ module.exports = (receiver, props) => {
       }
     }
 
-    // Add custom setter fn
+    // alias setter fn
+    if (typeof propVal === 'string') {
+      prop = propVal
+      setterFn = function () {
+        return this[propVal].apply(this, arguments)
+      }
+    }
+
+    // custom setter fn
     if (typeof propVal === 'function') {
       setterFn = propVal
     }
@@ -34,7 +42,6 @@ module.exports = (receiver, props) => {
         }
 
         var val = scope.data[prop]
-        console.log('getter() ', fnName, idx, val, scope.data, prop)
 
         // return indexed value
         if (idx !== undefined && Array.isArray(val)) {
