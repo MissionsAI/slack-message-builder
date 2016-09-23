@@ -1,0 +1,40 @@
+{
+  "name": "slack-message-builder",
+  "version": "0.0.0",
+  "description": "Library for building and manipulating messages for the Slack API",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "npm run lint && npm run coverage",
+    "lint": "standard",
+    "unit": "ava --verbose --serial",
+    "coverage": "nyc --check-coverage --statements 90 ava --verbose --serial",
+    "lcov": "nyc --reporter lcov ava --serial",
+    "coveralls": "npm run lcov && cat ./coverage/lcov.info | coveralls"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/BeepBoopHQ/slack-message-builder.git"
+  },
+  "keywords": [
+    "slack",
+    "bot",
+    "beepboop"
+  ],
+  "author": "Brad Harris",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/BeepBoopHQ/slack-message-builder/issues"
+  },
+  "devDependencies": {
+    "ava": "^0.16.0",
+    "coveralls": "^2.11.14",
+    "nyc": "^8.3.0",
+    "standard": "^8.1.0"
+  },
+  "dependencies": {
+    "camelcase": "^3.0.0"
+  }
+}
