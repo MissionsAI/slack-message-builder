@@ -1,6 +1,7 @@
 'use strict'
 
 const test = require('ava').test
+const camelcase = require('camelcase')
 const sm = require('../index')
 
 const text = 'this is my message'
@@ -82,25 +83,57 @@ test('slackmessage() with chained setters and chained attachment', t => {
           .text(message.attachments[0].actions[0].confirm.text)
           .okText(message.attachments[0].actions[0].confirm.ok_text)
           .dismissText(message.attachments[0].actions[0].confirm.dismiss_text)
-          .end()
         .end()
+      .end()
       .action()
         .name(message.attachments[0].actions[1].name)
         .text(message.attachments[0].actions[1].text)
         .type(message.attachments[0].actions[1].type)
-        .end()
+      .end()
       .field()
         .title(message.attachments[0].fields[0].title)
         .value(message.attachments[0].fields[0].value)
         .short(message.attachments[0].fields[0].short)
-        .end()
       .end()
+    .end()
+    .attachment()
+      .text(message.attachments[1].text)
+      .title(message.attachments[1].title)
+    .end()
     .json()
 
   t.deepEqual(msg, message)
 })
 
-// compose pieces of message, and re-use them, i.e. buttons, attachments, etc.
+test('slackmessage() property get()', t => {
+  var m = sm(message)
+
+  Object.keys(message).forEach(prop => {
+    var val = message[prop]
+    var getVal = m[camelcase(prop)].get()
+
+    // Flattens object out and normalizes to json structure
+    var jsonGetVal = JSON.parse(JSON.stringify(getVal))
+    t.deepEqual(jsonGetVal, val, `${prop} does not match`)
+  })
+})
+
+test('slackmessage().attachments.get()', t => {
+  var m = sm()
+    .attachments(message.attachments)
+
+  t.deepEqual(JSON.parse(JSON.stringify(m.attachments.get())), message.attachments)
+})
+
+test('slackmessage().attachments.get() w/ index', t => {
+  var m = sm()
+    .attachments(message.attachments)
+
+  t.deepEqual(JSON.parse(JSON.stringify(m.attachments.get(0))), message.attachments[0])
+  t.deepEqual(JSON.parse(JSON.stringify(m.attachments.get(1))), message.attachments[1])
+  t.deepEqual(JSON.parse(JSON.stringify(m.attachments.get(-1))), message.attachments[1])
+  t.deepEqual(JSON.parse(JSON.stringify(m.attachments.get(-2))), message.attachments[0])
+})
 
 const message = {
   text: 'message text',
@@ -156,6 +189,10 @@ const message = {
         value: 12889893,
         short: true
       }]
+    },
+    {
+      text: 'second attachment',
+      title: 'second attachment title'
     }
   ]
 }

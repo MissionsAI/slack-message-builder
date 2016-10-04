@@ -9,24 +9,12 @@ class Confirm {
     this.data = {}
 
     setValues(this, values)
+    // Adds scope of `this` to each setter fn for chaining `.get()`
+    this.addSetterScopes()
   }
 
   button (button) {
     this._button = button
-
-    return this
-  }
-
-  // convenience fn for ok_text
-  ok (val) {
-    this.data.ok_text = val
-
-    return this
-  }
-
-  // convenience fn for dismiss_text
-  dismiss (val) {
-    this.data.dismiss_text = val
 
     return this
   }
@@ -39,18 +27,22 @@ class Confirm {
     return Object.assign({}, this.data)
   }
 
+  toJSON () {
+    return this.json()
+  }
+
 }
 
 // props for Slack API - true gets a generic setter fn
 const PROPS = {
-  'title': true,
-  'text': true,
-  'ok_text': function (val) {
-    return this.ok(val)
-  },
-  'dismiss_text': function (val) {
-    return this.dismiss(val)
-  }
+  title: true,
+  text: true,
+  ok_text: true,
+  // alias for ok_text
+  ok: 'ok_text',
+  dismiss_text: true,
+  // alias for dismiss_text
+  dismiss: 'dismiss'
 }
 
 mixinSetters(Confirm.prototype, PROPS)

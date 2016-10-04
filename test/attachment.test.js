@@ -1,6 +1,7 @@
 'use strict'
 
 const test = require('ava').test
+const camelcase = require('camelcase')
 const Attachment = require('../src/attachment')
 
 test('Atachment()', t => {
@@ -116,6 +117,45 @@ test('Attachment().field()', t => {
   t.is(a.fields[0].title, title)
   t.is(a.fields[0].value, value)
   t.is(a.fields[0].short, short)
+})
+
+test('Attachment() property get()', t => {
+  var a = Attachment(attachment)
+
+  Object.keys(attachment).forEach(prop => {
+    var val = attachment[prop]
+    var getVal = a[camelcase(prop)].get()
+
+    // Flattens object out and normalizes to json structure
+    var jsonGetVal = JSON.parse(JSON.stringify(getVal))
+    t.deepEqual(jsonGetVal, val, `${prop} does not match`)
+  })
+})
+
+test('Attachment().actions.get()', t => {
+  var a = Attachment()
+    .actions(attachment.actions)
+
+  t.deepEqual(JSON.parse(JSON.stringify(a.actions.get())), attachment.actions)
+})
+
+test('Attachment().buttons.get()', t => {
+  var a = Attachment()
+    .buttons(attachment.actions)
+
+  t.true(Array.isArray(a.buttons.get()))
+  t.is(a.buttons.get().length, attachment.actions.length)
+  t.deepEqual(JSON.parse(JSON.stringify(a.buttons.get())), attachment.actions)
+})
+
+test('Attachment().actions.get() w/ index', t => {
+  var a = Attachment()
+    .actions(attachment.actions)
+
+  t.deepEqual(JSON.parse(JSON.stringify(a.actions.get(0))), attachment.actions[0])
+  t.deepEqual(JSON.parse(JSON.stringify(a.actions.get(1))), attachment.actions[1])
+  t.deepEqual(JSON.parse(JSON.stringify(a.actions.get(-1))), attachment.actions[1])
+  t.deepEqual(JSON.parse(JSON.stringify(a.actions.get(-2))), attachment.actions[0])
 })
 
 const attachment = {

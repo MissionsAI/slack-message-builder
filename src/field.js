@@ -13,6 +13,8 @@ class Field {
     this.data = {}
 
     setValues(this, values)
+    // Adds scope of `this` to each setter fn for chaining `.get()`
+    this.addSetterScopes()
   }
 
   attachment (attachment) {
@@ -28,13 +30,17 @@ class Field {
   json () {
     return Object.assign({}, this.data)
   }
+
+  toJSON () {
+    return this.json()
+  }
 }
 
 // props for Slack API - true gets a generic setter fn
 const PROPS = {
-  'title': true,
-  'value': true,
-  'short': true
+  title: true,
+  value: true,
+  short: true
 }
 
 mixinSetters(Field.prototype, PROPS)

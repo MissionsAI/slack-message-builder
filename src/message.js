@@ -14,18 +14,22 @@ const Message = module.exports = class {
       values.text = text
     }
 
-    this._attachments = []
     this.data = {}
 
     // populate any properties passed into constructor
-    setValues(this, values)
+    setValues(this, values, PROPS)
+    // Adds scope of `this` to each setter fn for chaining `.get()`
+    this.addSetterScopes()
   }
 
   // should create an Attachment object and add it to the collection
   attachment (values) {
     var attachment = Attachment(values).message(this)
 
-    this._attachments.push(attachment)
+    if (!this.data.attachments) {
+      this.data.attachments = []
+    }
+    this.data.attachments.push(attachment)
 
     return attachment
   }
@@ -34,50 +38,55 @@ const Message = module.exports = class {
   json () {
     var message = Object.assign({}, this.data)
 
-    if (this._attachments.length > 0) {
-      message.attachments = this._attachments.map(attachment => attachment.json())
+    if (this.data.attachments && this.data.attachments.length > 0) {
+      message.attachments = this.data.attachments.map(attachment => attachment.json())
     }
 
     return message
+  }
+
+  toJSON () {
+    return this.json()
   }
 
 }
 
 // props for Slack API - true gets a generic setter fn
 const PROPS = {
-  'text': true,
-  'response_type': true,
-  'replace_original': true,
-  'delete_original': true,
-  'token': true,
-  'channel': true,
-  'parse': true,
-  'link_names': true,
-  'unfurl_links': true,
-  'unfurl_media': true,
-  'as_user': true,
-  'icon_url': true,
-  'attachments': function (attachments) {
+  text: true,
+  response_type: true,
+  replace_original: true,
+  delete_original: true,
+  token: true,
+  channel: true,
+  parse: true,
+  link_names: true,
+  unfurl_links: true,
+  unfurl_media: true,
+  as_user: true,
+  icon_url: true,
+  attachments: function (attachments) {
     if (attachments === null) {
-      this._attachments = null
+      this.data.attachments = null
       return this
     }
 
-    this._attachments = (attachments || []).map(attachment => {
+    // TODO: remove reassignment here, just wipe then set
+    this.data.attachments = (attachments || []).map(attachment => {
       return this.attachment(attachment)
     })
 
     return this
   },
   // bot's username for msg - as_user must be true, or ignored
-  'username': function (val) {
+  username: function (val) {
     this.data.username = val
     this.data.as_user = true
 
     return this
   },
   // as_user must be false, or ignored
-  'icon_emoji': function (val) {
+  icon_emoji: function (val) {
     this.data.icon_emoji = val
     this.data.as_user = false
 

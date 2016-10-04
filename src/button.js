@@ -20,26 +20,17 @@ class Button {
     }
 
     this._attachment = null
-    this._confirm = null
     this.data = {
       type: 'button'
     }
 
     setValues(this, values)
+    // Adds scope of `this` to each setter fn for chaining `.get()`
+    this.addSetterScopes()
   }
 
   attachment (attachment) {
     this._attachment = attachment
-
-    return this
-  }
-
-  val (val) {
-    if (val !== null && val !== undefined && typeof val === 'object') {
-      val = JSON.stringify(val)
-    }
-
-    this.data.value = val
 
     return this
   }
@@ -51,32 +42,44 @@ class Button {
   json () {
     var button = Object.assign({}, this.data)
 
-    if (this._confirm) {
-      button.confirm = this._confirm.json()
+    if (this.data.confirm) {
+      button.confirm = this.data.confirm.json()
     }
 
     return button
+  }
+
+  toJSON () {
+    return this.json()
   }
 }
 
 // props for Slack API - true gets a generic setter fn
 const PROPS = {
-  'name': true,
-  'text': true,
-  'style': true,
-  'type': true,
-  'value': function (val) {
-    return this.val(val)
+  name: true,
+  text: true,
+  style: true,
+  type: true,
+  value: function (val) {
+    if (val !== null && val !== undefined && typeof val === 'object') {
+      val = JSON.stringify(val)
+    }
+
+    this.data.value = val
+
+    return this
   },
-  'confirm': function (confirm) {
+  // alias for value
+  val: 'value',
+  confirm: function (confirm) {
     if (confirm === null) {
-      this._confirm = null
+      this.data.confirm = null
       return this
     }
 
-    this._confirm = Confirm(confirm).button(this)
+    this.data.confirm = Confirm(confirm).button(this)
 
-    return this._confirm
+    return this.data.confirm
   }
 }
 
