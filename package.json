@@ -1,6 +1,6 @@
 {
   "name": "slack-message-builder",
-  "version": "0.0.2",
+  "version": "1.0.0",
   "description": "Library for building and manipulating messages for the Slack API",
   "main": "index.js",
   "directories": {
