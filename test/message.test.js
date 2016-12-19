@@ -135,6 +135,15 @@ test('slackmessage().attachments.get() w/ index', t => {
   t.deepEqual(JSON.parse(JSON.stringify(m.attachments.get(-2))), message.attachments[0])
 })
 
+test('slackmessage().username()', t => {
+  var m = sm()
+    .username('test')
+    .json()
+
+  t.is(m.username, 'test')
+  t.false(m.as_user)
+})
+
 const message = {
   text: 'message text',
   response_type: 'ephemeral',

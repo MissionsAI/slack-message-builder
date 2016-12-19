@@ -78,10 +78,10 @@ const PROPS = {
 
     return this
   },
-  // bot's username for msg - as_user must be true, or ignored
+  // bot's username for msg - as_user must be false, or ignored
   username: function (val) {
     this.data.username = val
-    this.data.as_user = true
+    this.data.as_user = false
 
     return this
   },
