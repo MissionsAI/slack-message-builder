@@ -37,6 +37,7 @@ test('slackmessage() with chained setters', t => {
     .unfurlMedia(message.unfurl_media)
     .asUser(message.as_user)
     .iconUrl(message.icon_url)
+    .threadTs(message.thread_ts)
     .attachments(message.attachments)
     .json()
 
@@ -57,6 +58,7 @@ test('slackmessage() with chained setters and chained attachment', t => {
     .unfurlMedia(message.unfurl_media)
     .asUser(message.as_user)
     .iconUrl(message.icon_url)
+    .threadTs(message.thread_ts)
     .attachment()
       .text(message.attachments[0].text)
       .title(message.attachments[0].title)
@@ -157,6 +159,7 @@ const message = {
   unfurl_media: false,
   as_user: false,
   icon_url: 'https://beepboophq.com/icon',
+  thread_ts: '1231231231312312',
   attachments: [
     {
       text: 'attachment text',
