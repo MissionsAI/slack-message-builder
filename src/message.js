@@ -65,6 +65,8 @@ const PROPS = {
   unfurl_media: true,
   as_user: true,
   icon_url: true,
+  thread_ts: true,
+  reply_broadcast: true,
   attachments: function (attachments) {
     if (attachments === null) {
       this.data.attachments = null
