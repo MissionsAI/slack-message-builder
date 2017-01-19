@@ -14,13 +14,17 @@ class Confirm {
   }
 
   button (button) {
-    this._button = button
+    return this.action(button)
+  }
+
+  action (action) {
+    this._action = action
 
     return this
   }
 
   end () {
-    return this._button
+    return this._action
   }
 
   json () {

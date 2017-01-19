@@ -3,6 +3,7 @@
 const mixinSetters = require('./mixin-setters')
 const setValues = require('./set-values')
 const Button = require('./button')
+const Select = require('./select')
 const Field = require('./field')
 
 class Attachment {
@@ -39,13 +40,8 @@ class Attachment {
     return field
   }
 
-  // alias for `this.action()`
-  button () {
-    return this.action.apply(this, arguments)
-  }
-
   // creates Button instance, adds it to collection and returns it
-  action () {
+  button () {
     var button = Button.apply(Button, arguments).attachment(this)
 
     if (!this.data.actions) {
@@ -54,6 +50,18 @@ class Attachment {
     this.data.actions.push(button)
 
     return button
+  }
+
+  // creates a Menu instance, adds it to the collection of actions and returns it
+  select () {
+    var select = Select.apply(Select, arguments).attachment(this)
+
+    if (!this.data.actions) {
+      this.data.actions = []
+    }
+    this.data.actions.push(select)
+
+    return select
   }
 
   end () {
@@ -114,7 +122,9 @@ const PROPS = {
       return this
     }
 
-    this.data.actions = (actions || []).map(action => this.action(action))
+    this.data.actions = (actions || []).map(action => {
+      return action.type === 'select' ? this.select(action) : this.button(action)
+    })
 
     return this
   },

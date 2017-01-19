@@ -82,3 +82,12 @@ test('Button().confirm()', t => {
   t.is(btn.confirm.title, title)
   t.is(btn.confirm.text, text)
 })
+
+test('Button().confirm() w/ null', t => {
+  var btn = Button()
+    .confirm(null)
+
+  t.truthy(btn)
+  t.is(btn.data.confirm, null)
+  t.falsy(btn.end())
+})
