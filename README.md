@@ -196,8 +196,8 @@ smb()
     .select()
       .name("pick_channel")
       .text("Static")
-      .option("some text", "a value")
-      .option("some more text", "moar value")
+      .option("a value", "some text")
+      .option("moar value", "some more text")
     .end()
     .select()
       .name("pick_dynamic")
@@ -208,6 +208,55 @@ smb()
 .json()
 ```
 
+Produces:
+
+```javascript
+{
+    text: 'Pickauser',
+    attachments: [
+        {
+            text: '',
+            fallback: 'Pickauser',
+            callback_id: 'user_callback',
+            actions: [
+                {
+                    type: 'select',
+                    name: 'pick_user',
+                    text: 'Users',
+                    data_source: 'users'
+                },
+                {
+                    type: 'select',
+                    name: 'pick_channel',
+                    text: 'Channels',
+                    data_source: 'channels'
+                },
+                {
+                    type: 'select',
+                    name: 'pick_channel',
+                    text: 'Static',
+                    options: [
+                        {
+                            text: 'sometext',
+                            value: 'avalue'
+                        },
+                        {
+                            text: 'somemoretext',
+                            value: 'moarvalue'
+                        }
+                    ]
+                },
+                {
+                    type: 'select',
+                    name: 'pick_dynamic',
+                    text: 'Choosesomethingdynamic!',
+                    data_source: 'external'
+                }
+            ]
+        }
+    ]
+}
+```
 
 ### Modifying Original Messages
 

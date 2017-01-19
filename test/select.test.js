@@ -69,8 +69,8 @@ test('Select() chaining settings', t => {
 test('Select() chaining each option', t => {
   var sel = Select(name, text)
     .value(value)
-    .option(opt1.text, opt1.value)
-    .option(opt2.text, opt2.value)
+    .option(opt1.value, opt1.text)
+    .option(opt2.value, opt2.text)
 
   t.is(sel.data.name, name)
   t.is(sel.data.text, text)

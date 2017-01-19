@@ -85,7 +85,7 @@ const PROPS = {
     this.data.data_source = dataSource
     return this
   },
-  option: function (text, value) {
+  option: function (value, text) {
     let option = { text, value }
     if (!Array.isArray(this.data.options)) {
       this.data.options = []
