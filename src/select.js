@@ -85,8 +85,13 @@ const PROPS = {
     this.data.data_source = dataSource
     return this
   },
-  option: function (value, text) {
+  option: function (text, value, description, selected) {
+    if (value !== null && value !== undefined && typeof value === 'object') {
+      value = JSON.stringify(value)
+    }
     let option = { text, value }
+    if (description !== undefined) option.description = description
+    if (selected !== undefined) option.selected = selected
     if (!Array.isArray(this.data.options)) {
       this.data.options = []
     }
@@ -114,7 +119,8 @@ module.exports = (name, text) => {
 //   .select('name3', 'Select from list of static options')
 //     .option('Opt 1', 'option 1 value')
 //     .option('Opt 2', 'option 2 value')
-//     .option('Opt 3', 'option 3 value')
+//     .option('Opt 3', 'option 3 value', 'option 3 description')
+//     .option('Opt 4', 'option 4 value', '', true)
 //     .end()
 //   .select('name 3', 'Select from dynamic')
 //     .dataSource('external')

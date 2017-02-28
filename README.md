@@ -194,10 +194,12 @@ smb()
       .dataSource("channels")
     .end()
     .select()
-      .name("pick_channel")
+      .name("pick_value")
       .text("Static")
-      .option("a value", "some text")
-      .option("moar value", "some more text")
+      .option("some text", "a value")
+      .option("some more text", "moar value")
+      .option("an object value", { foo: 'bar' })
+      .option("even more text", "even moar value", "a description", isSelected) // isSelected = true
     .end()
     .select()
       .name("pick_dynamic")
@@ -233,16 +235,26 @@ Produces:
                 },
                 {
                     type: 'select',
-                    name: 'pick_channel',
+                    name: 'pick_value',
                     text: 'Static',
                     options: [
                         {
-                            text: 'sometext',
-                            value: 'avalue'
+                            text: 'some text',
+                            value: ' avalue'
                         },
                         {
-                            text: 'somemoretext',
-                            value: 'moarvalue'
+                            text: 'some more text',
+                            value: 'moar value'
+                        },
+                        {
+                            text: 'an object value',
+                            value: '{"foo":"bar"}'
+                        },
+                        {
+                            text: 'even more text',
+                            value: 'even moar value',
+                            description: "a description",
+                            selected: true
                         }
                     ]
                 },
