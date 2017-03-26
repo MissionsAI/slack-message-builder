@@ -59,7 +59,10 @@ const PROPS = {
   name: true,
   text: true,
   type: true,
+  data_source: true,
+  min_query_length: true,
   options: true,
+  selected_options: true,
   value: function (val) {
     if (val !== null && val !== undefined && typeof val === 'object') {
       val = JSON.stringify(val)
@@ -81,17 +84,23 @@ const PROPS = {
 
     return this.data.confirm
   },
-  dataSource: function (dataSource) {
-    this.data.data_source = dataSource
+  selectedOption: function (text, value) {
+    if (value !== null && value !== undefined && typeof value === 'object') {
+      value = JSON.stringify(value)
+    }
+    let option = { text, value }
+    if (!Array.isArray(this.data.selected_options)) {
+      this.data.selected_options = []
+    }
+    this.data.selected_options.push(option)
     return this
   },
-  option: function (text, value, description, selected) {
+  option: function (text, value, description) {
     if (value !== null && value !== undefined && typeof value === 'object') {
       value = JSON.stringify(value)
     }
     let option = { text, value }
     if (description !== undefined) option.description = description
-    if (selected !== undefined) option.selected = selected
     if (!Array.isArray(this.data.options)) {
       this.data.options = []
     }
