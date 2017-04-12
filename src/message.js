@@ -41,7 +41,6 @@ const Message = module.exports = class {
     if (this.data.attachments && this.data.attachments.length > 0) {
       message.attachments = this.data.attachments.map(attachment => attachment.json())
     }
-
     return message
   }
 
@@ -88,7 +87,7 @@ const PROPS = {
     return this
   },
   // as_user must be false, or ignored
-  icon_emoji: function (val) {
+  iconEmoji: function (val) {
     this.data.icon_emoji = val
     this.data.as_user = false
 

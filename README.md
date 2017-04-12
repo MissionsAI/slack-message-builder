@@ -101,19 +101,19 @@ smb()
     .fallback("You are unable to choose a game")
     .callbackId("wopr_game")
     .color("#3AA3E3")
-    .action()
+    .button()
       .name("chess")
       .text("Chess")
       .type("button")
       .value("chess")
     .end()
-    .action()
+    .button()
       .name("maze")
       .text("Falken's Maze")
       .type("button")
       .value("maze")
     .end()
-    .action()
+    .button()
       .name("war")
       .text("Thermonuclear War")
       .style("danger")
@@ -170,6 +170,106 @@ smb()
     ]
 }
 ```
+
+### Message Menus (type=select)
+
+Message menus:
+
+```javascript
+const smb = require('slack-message-builder')
+smb()
+  .text("Pick a user")
+  .attachment()
+    .text("")
+    .fallback("Pick a user")
+    .callbackId("user_callback")
+    .select()
+      .name("pick_user")
+      .text("Users")
+      .dataSource("users")
+    .end()
+    .select()
+      .name("pick_channel")
+      .text("Channels")
+      .dataSource("channels")
+    .end()
+    .select()
+      .name("pick_value")
+      .text("Static")
+      .option("some text", "a value")
+      .option("some more text", "moar value")
+      .option("an object value", { foo: 'bar' })
+      .option("even more text", "even moar value", "a description", isSelected) // isSelected = true
+    .end()
+    .select()
+      .name("pick_dynamic")
+      .text("Choose something dynamic!")
+      .dataSource("external")
+    .end()
+  .end()
+.json()
+```
+
+Produces:
+
+```javascript
+{
+    text: 'Pickauser',
+    attachments: [
+        {
+            text: '',
+            fallback: 'Pickauser',
+            callback_id: 'user_callback',
+            actions: [
+                {
+                    type: 'select',
+                    name: 'pick_user',
+                    text: 'Users',
+                    data_source: 'users'
+                },
+                {
+                    type: 'select',
+                    name: 'pick_channel',
+                    text: 'Channels',
+                    data_source: 'channels'
+                },
+                {
+                    type: 'select',
+                    name: 'pick_value',
+                    text: 'Static',
+                    options: [
+                        {
+                            text: 'some text',
+                            value: ' avalue'
+                        },
+                        {
+                            text: 'some more text',
+                            value: 'moar value'
+                        },
+                        {
+                            text: 'an object value',
+                            value: '{"foo":"bar"}'
+                        },
+                        {
+                            text: 'even more text',
+                            value: 'even moar value',
+                            description: "a description",
+                            selected: true
+                        }
+                    ]
+                },
+                {
+                    type: 'select',
+                    name: 'pick_dynamic',
+                    text: 'Choosesomethingdynamic!',
+                    data_source: 'external'
+                }
+            ]
+        }
+    ]
+}
+```
+
 ### Modifying Original Messages
 
 Slack message builder can also be used to modify existing messages, such as the `original_message` that comes with an interactive message action. Consider the following example that uses the [Slapp](https://github.com/BeepBoopHQ/slapp) framework.

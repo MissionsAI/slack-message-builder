@@ -5,6 +5,7 @@ const camelcase = require('camelcase')
 const sm = require('../index')
 
 const text = 'this is my message'
+const iconEmoji = 'icon_emoji'
 
 test('slackmessage() with just text', t => {
   var msg = sm(text).json()
@@ -77,7 +78,7 @@ test('slackmessage() with chained setters and chained attachment', t => {
       .footer(message.attachments[0].footer)
       .footerIcon(message.attachments[0].footer_icon)
       .ts(message.attachments[0].ts)
-      .action()
+      .button()
         .name(message.attachments[0].actions[0].name)
         .text(message.attachments[0].actions[0].text)
         .value(message.attachments[0].actions[0].value)
@@ -89,7 +90,7 @@ test('slackmessage() with chained setters and chained attachment', t => {
           .dismissText(message.attachments[0].actions[0].confirm.dismiss_text)
         .end()
       .end()
-      .action()
+      .button()
         .name(message.attachments[0].actions[1].name)
         .text(message.attachments[0].actions[1].text)
         .type(message.attachments[0].actions[1].type)
@@ -98,6 +99,11 @@ test('slackmessage() with chained setters and chained attachment', t => {
         .title(message.attachments[0].fields[0].title)
         .value(message.attachments[0].fields[0].value)
         .short(message.attachments[0].fields[0].short)
+      .end()
+      .select()
+        .name(message.attachments[0].actions[2].name)
+        .text(message.attachments[0].actions[2].text)
+        .dataSource(message.attachments[0].actions[2].data_source)
       .end()
     .end()
     .attachment()
@@ -146,6 +152,29 @@ test('slackmessage().username()', t => {
 
   t.is(m.username, 'test')
   t.false(m.as_user)
+})
+
+test('slackmessage().attachments() w/ null', t => {
+  var m = sm()
+    .attachments(null)
+
+  t.truthy(m)
+  t.is(m.data.attachments, null)
+})
+
+test('slackmessage().icon_emoji()', t => {
+  var m = sm()
+    .iconEmoji(iconEmoji)
+
+  t.truthy(m)
+  t.is(m.data.icon_emoji, iconEmoji)
+  t.false(m.data.as_user)
+})
+
+test('slackmessage().toJSON() ', t => {
+  var m = sm(message)
+  t.truthy(m)
+  t.deepEqual(m.toJSON(), m.json())
 })
 
 const message = {
@@ -197,6 +226,12 @@ const message = {
           name: 'button2 name',
           text: 'button2 text',
           type: 'button'
+        },
+        {
+          type: 'select',
+          name: 'menu1 name',
+          text: 'menu2 text',
+          data_source: 'channels'
         }
       ],
       fields: [{

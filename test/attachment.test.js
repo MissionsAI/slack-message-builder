@@ -62,6 +62,19 @@ test('Attachment().button()', t => {
   t.is(a.actions[0].text, text)
 })
 
+test('Attachment().select()', t => {
+  var name = 'select name'
+  var text = 'select text'
+
+  var a = Attachment()
+    .select(name, text).end()
+    .json()
+
+  t.is(a.actions.length, 1)
+  t.is(a.actions[0].name, name)
+  t.is(a.actions[0].text, text)
+})
+
 test('Attachment().actions()', t => {
   var button1 = {
     name: 'button1 name',
@@ -156,6 +169,24 @@ test('Attachment().actions.get() w/ index', t => {
   t.deepEqual(JSON.parse(JSON.stringify(a.actions.get(1))), attachment.actions[1])
   t.deepEqual(JSON.parse(JSON.stringify(a.actions.get(-1))), attachment.actions[1])
   t.deepEqual(JSON.parse(JSON.stringify(a.actions.get(-2))), attachment.actions[0])
+})
+
+test('Attachment().fields() w/ null', t => {
+  var a = Attachment()
+    .fields(null)
+
+  t.truthy(a)
+  t.is(a.data.fields, null)
+  t.falsy(a.end())
+})
+
+test('Attachment().actions() w/ null', t => {
+  var a = Attachment()
+    .actions(null)
+
+  t.truthy(a)
+  t.is(a.data.actions, null)
+  t.falsy(a.end())
 })
 
 const attachment = {
