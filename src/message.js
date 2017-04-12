@@ -87,7 +87,7 @@ const PROPS = {
     return this
   },
   // as_user must be false, or ignored
-  iconEmoji: function (val) {
+  icon_emoji: function (val) {
     this.data.icon_emoji = val
     this.data.as_user = false
 

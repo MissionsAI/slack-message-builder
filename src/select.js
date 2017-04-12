@@ -84,7 +84,7 @@ const PROPS = {
 
     return this.data.confirm
   },
-  selectedOption: function (text, value) {
+  selected_option: function (text, value) {
     if (value !== null && value !== undefined && typeof value === 'object') {
       value = JSON.stringify(value)
     }

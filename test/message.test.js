@@ -162,9 +162,12 @@ test('slackmessage().attachments() w/ null', t => {
   t.is(m.data.attachments, null)
 })
 
-test('slackmessage().icon_emoji()', t => {
-  var m = sm()
-    .iconEmoji(iconEmoji)
+test('slackmessage().iconEmoji()', t => {
+  var m = sm().asUser(true)
+
+  t.true(m.data.as_user)
+
+  m = m.iconEmoji(iconEmoji)
 
   t.truthy(m)
   t.is(m.data.icon_emoji, iconEmoji)
