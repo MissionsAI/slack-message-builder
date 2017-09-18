@@ -71,6 +71,7 @@ test('slackmessage() with chained setters and chained attachment', t => {
       .color(message.attachments[0].color)
       .pretext(message.attachments[0].pretext)
       .authorName(message.attachments[0].author_name)
+      .authorSubname(message.attachments[0].author_subname)
       .authorLink(message.attachments[0].author_link)
       .authorIcon(message.attachments[0].author_icon)
       .imageUrl(message.attachments[0].image_url)
@@ -202,6 +203,7 @@ const message = {
       color: '#D9488F',
       pretext: 'attachment pretext',
       author_name: 'attachment author_name',
+      author_subname: 'attachment author_subname',
       author_link: 'https://beepboophq.com/author',
       author_icon: 'https://beepboophq.com/author_icon',
       image_url: 'https://beepboophq.com/image',

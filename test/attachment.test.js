@@ -27,6 +27,7 @@ test('Attachment() with chained props', t => {
     .color(attachment.color)
     .pretext(attachment.pretext)
     .authorName(attachment.author_name)
+    .authorSubname(attachment.author_subname)
     .authorLink(attachment.author_link)
     .authorIcon(attachment.author_icon)
     .imageUrl(attachment.image_url)
@@ -198,6 +199,7 @@ const attachment = {
   color: '#D9488F',
   pretext: 'attachment pretext',
   author_name: 'attachment author_name',
+  author_subname: 'attachment author_subname',
   author_link: 'https://beepboophq.com/author',
   author_icon: 'https://beepboophq.com/author_icon',
   image_url: 'https://beepboophq.com/image',

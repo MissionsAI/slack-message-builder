@@ -98,6 +98,7 @@ const PROPS = {
   color: true,
   pretext: true,
   author_name: true,
+  author_subname: true,
   author_link: true,
   author_icon: true,
   image_url: true,
