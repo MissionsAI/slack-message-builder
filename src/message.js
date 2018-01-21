@@ -64,6 +64,7 @@ const PROPS = {
   unfurl_media: true,
   as_user: true,
   icon_url: true,
+  ts: true,
   thread_ts: true,
   reply_broadcast: true,
   attachments: function (attachments) {
