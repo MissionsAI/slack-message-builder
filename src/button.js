@@ -60,6 +60,7 @@ const PROPS = {
   text: true,
   style: true,
   type: true,
+  url: true,
   value: function (val) {
     if (val !== null && val !== undefined && typeof val === 'object') {
       val = JSON.stringify(val)

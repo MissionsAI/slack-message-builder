@@ -7,6 +7,7 @@ const name = 'button_name'
 const text = 'Button Text'
 const value = 'button value'
 const style = 'primary'
+const url = 'http://url'
 
 test('Button()', t => {
   var btn = Button()
@@ -14,6 +15,7 @@ test('Button()', t => {
   t.is(btn.data.name, undefined)
   t.is(btn.data.text, undefined)
   t.is(btn.data.value, undefined)
+  t.is(btn.data.url, undefined)
   t.is(btn.data.type, 'button')
 })
 
@@ -42,6 +44,14 @@ test('Button({name, text, value, style})', t => {
   t.is(btn.data.text, text)
   t.is(btn.data.value, value)
   t.is(btn.data.style, style)
+  t.is(btn.data.type, 'button')
+})
+
+test('Button({text, url})', t => {
+  var btn = Button({ name, text, url })
+
+  t.is(btn.data.text, text)
+  t.is(btn.data.url, url)
   t.is(btn.data.type, 'button')
 })
 
