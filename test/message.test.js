@@ -32,6 +32,7 @@ test('slackmessage() with chained setters', t => {
     .deleteOriginal(message.delete_original)
     .token(message.token)
     .channel(message.channel)
+    .user(message.user)
     .parse(message.parse)
     .linkNames(message.link_names)
     .unfurlLinks(message.unfurl_links)
@@ -55,6 +56,7 @@ test('slackmessage() with chained setters and chained attachment', t => {
     .deleteOriginal(message.delete_original)
     .token(message.token)
     .channel(message.channel)
+    .user(message.user)
     .parse(message.parse)
     .linkNames(message.link_names)
     .unfurlLinks(message.unfurl_links)
@@ -187,6 +189,7 @@ const message = {
   delete_original: false,
   token: 'XIUUS9009',
   channel: 'C1188HKK',
+  user: 'U12345678',
   parse: true,
   link_names: true,
   unfurl_links: false,

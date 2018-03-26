@@ -58,6 +58,7 @@ const PROPS = {
   delete_original: true,
   token: true,
   channel: true,
+  user: true,
   parse: true,
   link_names: true,
   unfurl_links: true,
