@@ -1,9 +1,9 @@
-[![Sponsored by Beep Boop](https://img.shields.io/badge/%E2%9D%A4%EF%B8%8F_sponsored_by-%E2%9C%A8_Robots%20%26%20Pencils%20%2F%20Beep%20Boop_%E2%9C%A8-FB6CBE.svg)](https://beepboophq.com)
-[![Build Status](https://travis-ci.org/BeepBoopHQ/slack-message-builder.svg)](https://travis-ci.org/BeepBoopHQ/slack-message-builder)
-[![Coverage Status](https://coveralls.io/repos/github/BeepBoopHQ/slack-message-builder/badge.svg)](https://coveralls.io/github/BeepBoopHQ/slack-message-builder)
+[![Sponsored by Beep Boop](https://img.shields.io/badge/%E2%9D%A4%EF%B8%8F_sponsored_by-%E2%9C%A8_Robots%20%26%20Pencils_%E2%9C%A8-FB6CBE.svg)](https://missions.ai)
+[![Build Status](https://travis-ci.org/missionsai/slack-message-builder.svg)](https://travis-ci.org/missionsai/slack-message-builder)
+[![Coverage Status](https://coveralls.io/repos/github/missionsai/slack-message-builder/badge.svg)](https://coveralls.io/github/missionsai/slack-message-builder)
 
 # Slack Message Builder
-Slack Message Builder is a node.js module that builds JSON documents that can be used to post messages to slack's chat.postMessage API. Can be used where ever you need to generate Slack message JSON especially in [Slapp](https://github.com/BeepBoopHQ/slapp).
+Slack Message Builder is a node.js module that builds JSON documents that can be used to post messages to slack's chat.postMessage API. Can be used where ever you need to generate Slack message JSON especially in [Slapp](https://github.com/missionsai/slapp).
 
 ## Install
 
@@ -272,7 +272,7 @@ Produces:
 
 ### Modifying Original Messages
 
-Slack message builder can also be used to modify existing messages, such as the `original_message` that comes with an interactive message action. Consider the following example that uses the [Slapp](https://github.com/BeepBoopHQ/slapp) framework.
+Slack message builder can also be used to modify existing messages, such as the `original_message` that comes with an interactive message action. Consider the following example that uses the [Slapp](https://github.com/missionsai/slapp) framework.
 
 ```javascript
   const slapp = require('slapp')

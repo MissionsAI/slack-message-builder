@@ -16,7 +16,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/BeepBoopHQ/slack-message-builder.git"
+    "url": "https://github.com/missionsai/slack-message-builder.git"
   },
   "keywords": [
     "slack",
@@ -26,7 +26,7 @@
   "author": "Brad Harris",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/BeepBoopHQ/slack-message-builder/issues"
+    "url": "https://github.com/missionsai/slack-message-builder/issues"
   },
   "devDependencies": {
     "ava": "^0.16.0",
