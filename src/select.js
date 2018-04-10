@@ -3,6 +3,7 @@
 const mixinSetters = require('./mixin-setters')
 const setValues = require('./set-values')
 const Confirm = require('./confirm')
+const OptionGroup = require('./option-group')
 
 class Select {
 
@@ -33,6 +34,17 @@ class Select {
     this._attachment = attachment
 
     return this
+  }
+
+  optionGroup () {
+    const optionGroup = OptionGroup.apply(OptionGroup, arguments).attachment(this._attachment)
+
+    if (!this.data.option_groups) {
+      this.data.option_groups = []
+    }
+    this.data.option_groups.push(optionGroup)
+
+    return optionGroup
   }
 
   end () {
