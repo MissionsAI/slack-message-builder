@@ -3,6 +3,7 @@
 const mixinSetters = require('./mixin-setters')
 const setValues = require('./set-values')
 const Confirm = require('./confirm')
+const OptionGroup = require('./option-group')
 
 class Select {
 
@@ -35,6 +36,17 @@ class Select {
     return this
   }
 
+  optionGroup () {
+    const optionGroup = OptionGroup.apply(OptionGroup, arguments).select(this)
+
+    if (!this.data.option_groups) {
+      this.data.option_groups = []
+    }
+    this.data.option_groups.push(optionGroup)
+
+    return optionGroup
+  }
+
   end () {
     return this._attachment
   }
@@ -44,6 +56,10 @@ class Select {
 
     if (this.data.confirm) {
       select.confirm = this.data.confirm.json()
+    }
+
+    if (this.data.option_groups && this.data.option_groups.length > 0) {
+      select.option_groups = this.data.option_groups.map(optionGroup => optionGroup.json())
     }
 
     return select

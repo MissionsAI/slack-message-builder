@@ -270,6 +270,83 @@ Produces:
 }
 ```
 
+### Message Menus with Option Groups (type=select)
+```javascript
+const smb = require('slack-message-builder')
+smb()
+  .text('Pick a user')
+  .attachment()
+    .text('Pick a user')
+    .fallback('Pick a user')
+    .callbackId('user_callback')
+    .select()
+      .name('option_group')
+      .text('Static Option Groups')
+      .optionGroup()
+        .text('Option header')
+        .option('some text', 'a value')
+        .option('some more text', 'moar value')
+      .end()
+      .optionGroup()
+        .text('Second Option header')
+        .option('some text', 'a value')
+        .option('some more text', 'moar value')
+      .end()
+    .end()
+  .end()
+.json()
+```
+
+Produces:
+
+```javascript
+{
+  "text": "Pick a user",
+  "attachments": [
+    {
+      "text": "Pick a user",
+      "fallback": "Pick a user",
+      "callback_id": "user_callback",
+      "actions": [
+        {
+          "type": "select",
+          "name": "option_group",
+          "text": "Static Option Groups",
+          "option_groups": [
+            {
+              "text": "Option header",
+              "options": [
+                {
+                  "text": "some text",
+                  "value": "a value"
+                },
+                {
+                  "text": "some more text",
+                  "value": "moar value"
+                }
+              ]
+            },
+            {
+              "text": "Second Option header",
+              "options": [
+                {
+                  "text": "some text",
+                  "value": "a value"
+                },
+                {
+                  "text": "some more text",
+                  "value": "moar value"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+
+```
 ### Modifying Original Messages
 
 Slack message builder can also be used to modify existing messages, such as the `original_message` that comes with an interactive message action. Consider the following example that uses the [Slapp](https://github.com/missionsai/slapp) framework.
