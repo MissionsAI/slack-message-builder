@@ -37,7 +37,7 @@ class Select {
   }
 
   optionGroup () {
-    const optionGroup = OptionGroup.apply(OptionGroup, arguments).attachment(this._attachment)
+    const optionGroup = OptionGroup.apply(OptionGroup, arguments).select(this)
 
     if (!this.data.option_groups) {
       this.data.option_groups = []
@@ -56,6 +56,10 @@ class Select {
 
     if (this.data.confirm) {
       select.confirm = this.data.confirm.json()
+    }
+
+    if (this.data.option_groups && this.data.option_groups.length > 0) {
+      select.option_groups = this.data.option_groups.map(optionGroup => optionGroup.json())
     }
 
     return select

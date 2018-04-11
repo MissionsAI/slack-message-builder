@@ -13,7 +13,7 @@ class OptionGroup {
       values.text = text
     }
 
-    this._attachment = null
+    this._select = null
     this.data = {}
 
     setValues(this, values)
@@ -21,14 +21,14 @@ class OptionGroup {
     this.addSetterScopes()
   }
 
-  attachment (attachment) {
-    this._attachment = attachment
+  select (select) {
+    this._select = select
 
     return this
   }
 
   end () {
-    return this._attachment
+    return this._select
   }
 
   json () {
@@ -43,17 +43,17 @@ class OptionGroup {
 // props for Slack API - true gets a generic setter fn
 const PROPS = {
   text: true,
-  option_groups: true,
+  options: true,
   option: function (text, value, description) {
     if (value !== null && value !== undefined && typeof value === 'object') {
       value = JSON.stringify(value)
     }
     let option = { text, value }
     if (description !== undefined) option.description = description
-    if (!Array.isArray(this.data.option_groups)) {
-      this.data.option_groups = []
+    if (!Array.isArray(this.data.options)) {
+      this.data.options = []
     }
-    this.data.option_groups.push(option)
+    this.data.options.push(option)
     return this
   }
 }
@@ -68,6 +68,7 @@ module.exports = (text) => {
 // msg.attachment()
 //   .callbackId('callback_id')
 //   .text('pic some stuff')
+//   .select()
 //   .optionGroup()
 //     .text('option header')
 //     .option('Opt 1', 'option 1 value')
@@ -75,3 +76,4 @@ module.exports = (text) => {
 //     .option('Opt 3', 'option 3 value', 'option 3 description')
 //     .option('Opt 4', 'option 4 value', '', true)
 //     .end()
+//   .end()

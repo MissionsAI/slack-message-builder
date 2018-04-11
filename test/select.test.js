@@ -154,6 +154,24 @@ test('Select().confirm() w/ null', t => {
   t.falsy(sel.end())
 })
 
+test('Select().optionGrouop()', t => {
+  const title = 'option title'
+
+  const sel = Select()
+    .optionGroup()
+      .text(title)
+      .option(opt1.text, opt1.value)
+      .end()
+    .json()
+
+  t.truthy(sel)
+  t.truthy(sel.option_groups[0])
+  t.is(sel.option_groups[0].text, title)
+  t.truthy(sel.option_groups[0].options)
+  t.is(sel.option_groups[0].options[0].text, opt1.text)
+  t.is(sel.option_groups[0].options[0].value, opt1.value)
+})
+
 test('Select().attachment()', t => {
   var attachment = { foo: 'bar' }
   var sel = Select()
